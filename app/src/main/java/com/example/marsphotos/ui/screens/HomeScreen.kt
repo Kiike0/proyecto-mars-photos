@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,33 +35,22 @@ import androidx.compose.ui.unit.dp
 import com.example.marsphotos.R
 import com.example.marsphotos.ui.theme.MarsPhotosTheme
 
-@Composable
-fun HomeScreen(
-    marsUiState: MarsUiState,
-    modifier: Modifier = Modifier
-) {
-    when (marsUiState) {
-        is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is MarsUiState.Success -> ResultScreen(
-            marsUiState.photos, modifier = modifier.fillMaxWidth()
-        )
-
-        is MarsUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
-    }
-}
 
 
 
+/*
 /**
  * ResultScreen displaying number of photos retrieved.
  */
 @Composable
-fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
-    ) {
-        Text(text = photos)
+fun ResultScreen(photos: List<Result>, modifier: Modifier = Modifier) {
+    // Aquí iteramos sobre la lista de resultados y mostramos las imágenes
+    for (photo in photos) {
+        Image(
+            painter = rememberImagePainter(photo.poster_path),
+            contentDescription = photo.title,
+            modifier = modifier
+        )
     }
 }
 
@@ -68,9 +58,13 @@ fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
 @Composable
 fun ResultScreenPreview() {
     MarsPhotosTheme {
-        ResultScreen(stringResource(R.string.placeholder_result))
+        // Aquí necesitas pasar una lista de resultados válida
+        val placeholderResult = com.example.marsphotos.network.model.Result()
+        ResultScreen(listOf(placeholderResult))
     }
 }
+*/
+
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {

@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marsphotos.network.MarsApiService
+import com.example.marsphotos.network.model.Results
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -32,6 +33,13 @@ sealed interface MarsUiState {
 
 
 class MarsViewModel : ViewModel() {
+
+    //private val _moviesRemoteResults = MutableLiveData<RemoteResult>()
+    //val moviesRemoteResults: LiveData<RemoteResult> = _moviesRemoteResults
+
+    // Variable para almacenar las películas
+    var movies: Results = Results(0, emptyList(), 0, 0)
+
     /** The mutable State that stores the status of the most recent request */
     var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
         private set
@@ -40,9 +48,10 @@ class MarsViewModel : ViewModel() {
      * Call getMarsPhotos() on init so we can display status immediately.
      */
     init {
-        getMarsPhotos()
+        //getMarsPhotos()
+        //getMovieTitles()
     }
-
+/*
     /**
      * Gets Mars photos information from the Mars API Retrofit service and updates the
      * [MarsPhoto] [List] [MutableList].
@@ -50,15 +59,20 @@ class MarsViewModel : ViewModel() {
     private fun getMarsPhotos() {
         viewModelScope.launch {
             marsUiState = try {
-                val listResult = MarsApiService.MarsApi.retrofitService.getPhotos()
+                // Crear una instancia de MarsApi utilizando la función create() de MarsApiServiceFactory
+                val marsApi = MarsApiServiceFactory.create()
+                // Utilizar la instancia creada para acceder a retrofitService y obtener las fotos
+                val photos = marsApi.getPhotos()
                 MarsUiState.Success(
-                    "Success: ${listResult.size} Mars photos retrieved"
+                    "Success: ${photos.size} Mars photos retrieved"
                 )
             } catch (e: IOException) {
                 MarsUiState.Error
             }
         }
     }
+*/
+
 
 }
 
